@@ -1,14 +1,18 @@
-class_name GrazerMoveState
-extends BaseState
+class_name GrazerSeekState
+extends SteeringState
 
 @export
 var grazer_idle_state : BaseState
-@export
-var steering : Steering
 
 
 func enter() -> void:
+	steering = SteeringSeek.new()
+	initSteering()
+
+	steering.max_acceleration = max_acceleration
+
 	parent.play_animation(&"move")
+
 
 func exit() -> void:
 	parent.animation_player.stop()
