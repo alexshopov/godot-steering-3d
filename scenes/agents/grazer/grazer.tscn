@@ -1,0 +1,96 @@
+[gd_scene load_steps=12 format=3 uid="uid://cr7n3fcbv7spu"]
+
+[ext_resource type="Script" uid="uid://dm34rkauoxg3e" path="res://scripts/agents/grazer/grazer.gd" id="1_7fwp5"]
+[ext_resource type="Script" uid="uid://cr0yvpqrf1dfe" path="res://scripts/agents/state_machine/state_machine.gd" id="2_pqq5i"]
+[ext_resource type="Script" uid="uid://dycsd3ighf6k4" path="res://scripts/agents/grazer/grazer_idle_state.gd" id="3_suc7k"]
+[ext_resource type="Script" uid="uid://c8gv28bol87b0" path="res://scripts/agents/grazer/grazer_move_state.gd" id="4_1tclt"]
+[ext_resource type="Script" uid="uid://bjkdmtkrr4mkr" path="res://scripts/agents/grazer/grazer_seek.gd" id="5_svhxe"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hvg1i"]
+albedo_color = Color(0.405629, 0.334146, 0.253388, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xtghu"]
+material = SubResource("StandardMaterial3D_hvg1i")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h02eg"]
+radius = 0.250959
+height = 0.984901
+
+[sub_resource type="Animation" id="Animation_t24wf"]
+length = 1.00001
+loop_mode = 1
+step = 0.0833333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.916667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.5, 0), Vector3(0, 0.6, 0), Vector3(0, 0.5, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_v3jd1"]
+resource_name = "idle"
+loop_mode = 1
+step = 0.0833333
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.25, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s7qps"]
+_data = {
+&"RESET": SubResource("Animation_t24wf"),
+&"move": SubResource("Animation_v3jd1")
+}
+
+[node name="Grazer" type="CharacterBody3D" node_paths=PackedStringArray("starting_state")]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_7fwp5")
+starting_state = NodePath("StateMachine/GrazerMoveState")
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Model" type="MeshInstance3D" parent="Pivot"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_xtghu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CapsuleShape3D_h02eg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_s7qps")
+}
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_pqq5i")
+
+[node name="GrazerIdleState" type="Node" parent="StateMachine" node_paths=PackedStringArray("grazer_move_state")]
+script = ExtResource("3_suc7k")
+grazer_move_state = NodePath("../GrazerMoveState")
+
+[node name="GrazerMoveState" type="Node" parent="StateMachine" node_paths=PackedStringArray("grazer_idle_state", "steering")]
+script = ExtResource("4_1tclt")
+grazer_idle_state = NodePath("../GrazerIdleState")
+steering = NodePath("GrazerSeek")
+
+[node name="GrazerSeek" type="Node" parent="StateMachine/GrazerMoveState" node_paths=PackedStringArray("agent")]
+script = ExtResource("5_svhxe")
+agent = NodePath("../../..")
+max_acceleration = 1.0
+max_speed = 1.0

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkdp33d7i5f5t"]
+
+[ext_resource type="PackedScene" uid="uid://cign7v5j8p82c" path="res://assets/environment/models/base-tile.glb" id="1_tjuj4"]
+
+[node name="Tiles" type="Node3D"]
+
+[node name="base-tile" parent="." instance=ExtResource("1_tjuj4")]

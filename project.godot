@@ -1,0 +1,21 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Steering Behaviors 2.0"
+run/main_scene="uid://bry5dy0pf4rrw"
+config/features=PackedStringArray("4.4", "Forward Plus")
+config/icon="res://icon.svg"
+
+[layer_names]
+
+3d_physics/layer_1="environment"
+3d_physics/layer_2="agents"

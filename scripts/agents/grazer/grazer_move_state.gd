@@ -1,0 +1,27 @@
+class_name GrazerMoveState
+extends BaseState
+
+@export
+var grazer_idle_state : BaseState
+@export
+var steering : Steering
+
+
+func enter() -> void:
+	parent.play_animation(&"move")
+
+func exit() -> void:
+	parent.animation_player.stop()
+
+
+func process_physics(delta: float) -> BaseState:
+	var steering_out := steering.get_steering()
+	if not steering_out:
+		return grazer_idle_state
+
+	parent.velocity += steering_out.linear * delta
+	if parent.velocity.length() > steering.max_speed:
+		parent.velocity = parent.velocity.normalized() * steering.max_speed
+
+	parent.move_and_slide()
+	return null
