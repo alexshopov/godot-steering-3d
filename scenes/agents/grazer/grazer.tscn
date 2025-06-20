@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://cr7n3fcbv7spu"]
 
 [ext_resource type="Script" uid="uid://dm34rkauoxg3e" path="res://scripts/agents/grazer/grazer.gd" id="1_7fwp5"]
-[ext_resource type="Script" uid="uid://cr0yvpqrf1dfe" path="res://scripts/agents/state_machine/state_machine.gd" id="2_pqq5i"]
+[ext_resource type="Script" uid="uid://cr0yvpqrf1dfe" path="res://scripts/agents/lib/state_machine/state_machine.gd" id="2_pqq5i"]
 [ext_resource type="Script" uid="uid://dycsd3ighf6k4" path="res://scripts/agents/grazer/grazer_idle_state.gd" id="3_suc7k"]
 [ext_resource type="Script" uid="uid://c8gv28bol87b0" path="res://scripts/agents/grazer/grazer_move_state.gd" id="4_1tclt"]
 [ext_resource type="Script" uid="uid://bjkdmtkrr4mkr" path="res://scripts/agents/grazer/grazer_seek.gd" id="5_svhxe"]
@@ -92,5 +92,5 @@ steering = NodePath("GrazerSeek")
 [node name="GrazerSeek" type="Node" parent="StateMachine/GrazerMoveState" node_paths=PackedStringArray("agent")]
 script = ExtResource("5_svhxe")
 agent = NodePath("../../..")
-max_acceleration = 1.0
+max_acceleration = 0.5
 max_speed = 1.0
