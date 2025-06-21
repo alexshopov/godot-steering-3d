@@ -5,10 +5,12 @@ extends SteeringState
 var grazer_idle_state : BaseState
 
 
-func enter() -> void:
+func _ready() -> void:
 	steering = SteeringSeek.new()
-	initSteering()
 
+
+func enter() -> void:
+	super()
 	steering.max_acceleration = max_acceleration
 
 	parent.play_animation(&"move")
@@ -26,6 +28,10 @@ func process_physics(delta: float) -> BaseState:
 	parent.velocity += steering_out.linear * delta
 	if parent.velocity.length() > steering.max_speed:
 		parent.velocity = parent.velocity.normalized() * steering.max_speed
+
+	var align := parent.target.global_position
+	align.y = 0.2
+	parent.look_at(align, Vector3.UP)
 
 	parent.move_and_slide()
 	return null

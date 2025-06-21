@@ -8,7 +8,7 @@ var max_acceleration : float = 1.0
 
 var steering : SteeringBehavior
 
-func initSteering() -> void:
+func enter() -> void:
 	steering.agent = parent
 	steering.target = parent.target
 	steering.max_speed = max_speed

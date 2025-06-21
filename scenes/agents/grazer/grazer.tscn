@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cr7n3fcbv7spu"]
+[gd_scene load_steps=12 format=3 uid="uid://cr7n3fcbv7spu"]
 
 [ext_resource type="Script" uid="uid://dm34rkauoxg3e" path="res://scripts/agents/grazer/grazer.gd" id="1_7fwp5"]
 [ext_resource type="Script" uid="uid://cr0yvpqrf1dfe" path="res://scripts/agents/lib/state_machine/state_machine.gd" id="2_pqq5i"]
@@ -11,8 +11,10 @@ albedo_color = Color(0.405629, 0.334146, 0.253388, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_xtghu"]
 material = SubResource("StandardMaterial3D_hvg1i")
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_1tclt"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h02eg"]
-radius = 0.250959
+radius = 0.275574
 height = 0.984901
 
 [sub_resource type="Animation" id="Animation_t24wf"]
@@ -66,6 +68,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 [node name="Model" type="MeshInstance3D" parent="Pivot"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_xtghu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, -0.000813425, 0.220671, -0.253771)
+mesh = SubResource("CapsuleMesh_1tclt")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
